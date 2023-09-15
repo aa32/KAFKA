@@ -101,6 +101,75 @@ broker.id=0
 check for other settings in this file like Topic setting, log flush policy, log retention policy and most importantly 
 Socket server settings
 
+## STEP 4   CREATE KAFKA Topic
+**you can create kafka topic with bootstrap server only**
+In old editions, it was possible to create kafka topic with zookeeper server also, but that is deprecated
+
+```
+bin/kafka-topics.sh --create --bootstrap-server localhost:9092 --topic cities
+```
+Execute the below command for description of the created topic :
+```
+bin/kafka-topics.sh --describe --bootstrap-server localhost:9092
+```
+In output you get following:
+> Topic :   cities
+> TopicId : 
+> PartitionCount: 1
+> ReplicationFactor :1
+>Configs: Topic: cities   Partition: 0    Leader: 0       Replicas: 0     Isr: 0
+
+since there is only 1 partition, it starts with id 0 , this is the Leader also 
+If there are 2 partitions , it will be 0 and 1 etc.
+**Here Isr stands for In-Sync Replica: Number of Replicas which are in-sync with the leader.**
+
+## STEP 5: Send and consume events
+Inside KAFKA/bin folder these two scripts have to be executed for sending and consuming messages/events:
+1. bin/kafka-console-consumer.sh
+2. bin/kafka-console-producer.sh
+
+Execute this command to produce messages in a new terminal:
+```
+bin/kafka-console-producer.sh --bootstrap-server localhost:9092 --topic cities
+>New York
+>California
+>Paris
+>London
+>Delhi
+>Mumbai
+>Kolkata
+```
+Open other terminal window tab and 
+Execute this command to start the consumer
+```
+bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic cities
+```
+go to terminal window where producer is running and give few other city names like Dubai,San Francisco
+and when you switch to consumer terminal , you will see these cities have been consumed by consumer.
+**But what about the cities we entered before???**
+Execute below command to see:
+```
+bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic cities --from-beginning
+```
+You will see all the cities enetered even when consumer was not started. that means :
+**Conclusion: Kafka stores the messages to be picked by consumer later**
+
+**Let us create multiple consumers**
+Open separate terminal window and start one more consumer listening to topic:cities using exactly same command as we did before:
+Now go to the terminal window where Producer was running and enter new city say Agra
+and then check the terminal windows of both the consumers and you see that they both consumed the new message 
+**Conclusion: Multiple consumers can listen to single topic**
+
+**Let us create multiple producers**
+Open separate terminal window and start one more Producer , sending events/msgs to topic:cities using exactly same command as we did before:
+Now go to the terminal window where new Producer is strated and enter new city say "BARCELONA"
+and then check the terminal windows of both the consumers and you see that they both consumed the new message .
+**Conclusion: multiple  producers can produce to single topic**
+
+
+    
+
+
 
 
 
