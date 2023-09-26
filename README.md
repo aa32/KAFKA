@@ -6,7 +6,7 @@
 
 ```
 sudo apt-get update
-sudo install openjdk-11-jdk
+sudo apt install openjdk-11-jdk
 java --version
 ``` 
 **step2: Next  download apache kafka installation file (Tar) from its website**
@@ -28,7 +28,7 @@ Pro tip:
 ```
 mkdir KAFKA
 cd KAFKA
-tar -xvzf ~Downloads/kafka.tgz --strip 1
+tar -xvzf /Downloads/kafka.tgz --strip 1
 ```
 Examine the contents of folders extracted ==> config, bin, libs, site-docs, licenses
 inside bin directory all files are .sh files like kafka-start-server.sh and kafka-stop-server.sh.
